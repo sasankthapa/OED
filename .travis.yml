@@ -15,13 +15,18 @@ services:
   - docker
 
 addons:
-  postgresql: "10.13"
+  postgresql: "10"
+  apt:
+        packages:
+        - postgresql-10
+        - postgresql-client-10
 
 env:
     - OED_DB_USER=test OED_DB_PASSWORD=test OED_DB_DATABASE=travis_ci_dummy OED_DB_TEST_DATABASE=travis_ci_test OED_DB_HOST=localhost OED_DB_PORT=5432 OED_TOKEN_SECRET=travis OED_SERVER_PORT=3000 DOCKER_COMPOSE_VERSION=1.27.4 POSTGRES_PASSWORD=travisTest
 
 before_install:
     - sudo rm /usr/local/bin/docker-compose
+    - uname -s
     - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
     - chmod +x docker-compose
     - sudo mv docker-compose /usr/local/bin
